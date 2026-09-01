@@ -72,7 +72,7 @@ To run and preview the repository locally on your machine:
 
 📬 Contact & Connect
 
-    Email: cyberumair.dev@gmail.com
+    Email: umairghaffar759@gmail.com
 
     GitHub: @umairghaffar759
 
