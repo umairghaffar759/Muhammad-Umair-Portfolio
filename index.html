@@ -3035,19 +3035,56 @@
                 document.body.removeChild(ta);
             }
 
-            // CONTACT FORM
+            // CONTACT FORM (Connected to Gmail)
             const contactForm = document.getElementById('contactForm');
+            const submitBtn = contactForm.querySelector('.btn-submit');
+
             contactForm.addEventListener('submit', function(e) {
                 e.preventDefault();
                 const name = document.getElementById('contactName').value.trim();
                 const email = document.getElementById('contactEmail').value.trim();
+                const subject = document.getElementById('contactSubject').value.trim() || 'New Portfolio Contact';
                 const msg = document.getElementById('contactMessage').value.trim();
-                if (!name || !email || !msg) { showToast('Please fill in all required fields.'); return; }
-                if (!email.includes('@') || !email.includes('.')) { showToast('Please enter a valid email address.'); return; }
-                showToast('Message sent! I\'ll get back to you within 24 hours.');
-                contactForm.reset();
-            });
 
+                if (!name || !email || !msg) { 
+                    showToast('Please fill in all required fields.'); 
+                    return; 
+                }
+                if (!email.includes('@') || !email.includes('.')) { 
+                    showToast('Please enter a valid email address.'); 
+                    return; 
+                }
+
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = 'Sending... <i class="fas fa-spinner fa-spin"></i>';
+
+                fetch('https://formsubmit.co/ajax/cyberumair.dev@gmail.com', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: name,
+                        email: email,
+                        subject: subject,
+                        message: msg
+                    })
+                })
+                .then(function(response) { return response.json(); })
+                .then(function(data) {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = 'Send message <span class="icon-arrow">→</span>';
+                    showToast("Message sent! I'll get back to you within 24 hours.");
+                    contactForm.reset();
+                })
+                .catch(function(error) {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = 'Send message <span class="icon-arrow">→</span>';
+                    showToast('Something went wrong. Please try again or email directly.');
+                });
+            });
+            
             let resizeTimer;
             window.addEventListener('resize', function() {
                 clearTimeout(resizeTimer);
