@@ -74,7 +74,7 @@ To run and preview the repository locally on your machine:
 
     Email: umairghaffar759@gmail.com
 
-    GitHub: @umairghaffar759
+    GitHub: @umairs759
 
     Location: Lahore, Pakistan
 
